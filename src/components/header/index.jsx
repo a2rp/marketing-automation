@@ -1,6 +1,6 @@
 ﻿import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FiCommand, FiGitBranch, FiMenu, FiPlus, FiX } from "react-icons/fi";
+import { FiGitBranch, FiMenu, FiPlus, FiX } from "react-icons/fi";
 import styles from "./styles.module.css";
 
 const Header = ({ onNewJourney }) => {
@@ -36,7 +36,7 @@ const Header = ({ onNewJourney }) => {
           </nav>
           <button className={styles.createButton} type="button" onClick={() => { closeMenu(); onNewJourney(); }}><FiPlus aria-hidden="true" /> New journey</button>
         </div>
-        <div className={styles.status}><span className={styles.statusDot} /> Demo workspace <kbd><FiCommand aria-hidden="true" /> K</kbd></div>
+        <div className={styles.status}><span className={styles.statusDot} /> Demo workspace</div>
         <button className={styles.menuToggle} type="button" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}>{menuOpen ? <FiX /> : <FiMenu />}</button>
       </div>
     </header>
@@ -44,3 +44,4 @@ const Header = ({ onNewJourney }) => {
 };
 
 export default Header;
+
