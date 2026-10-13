@@ -1,0 +1,79 @@
+﻿.page { max-width: 1500px; margin: auto; }
+.topline { display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem; color: var(--color-muted); font-size: .88rem; }
+.topline a { display: inline-flex; align-items: center; gap: .35rem; color: var(--color-violet-dark); font-weight: 700; }
+.topline svg { width: 1rem; }
+.pageHeading { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1.2rem; }
+.label { color: var(--color-violet-dark); font-size: .8125rem; font-weight: 800; letter-spacing: .12em; }
+.pageHeading h1 { margin-top: .35rem; font-family: var(--font-serif); font-size: clamp(2.2rem,4vw,3.6rem); font-weight: 400; line-height: 1.05; letter-spacing: -.05em; }
+.pageHeading > div:first-child > p:last-child { margin-top: .45rem; color: var(--color-muted); }
+.headerActions { display: flex; align-items: center; gap: .8rem; }
+.status { display: inline-flex; align-items: center; gap: .4rem; font-size: .88rem; font-weight: 700; }
+.status i { width: 9px; height: 9px; border-radius: 50%; background: #9292a2; }
+.active i { background: #49a26e; }
+.draft i { background: #f3a752; }
+.paused i { background: #9292a2; }
+.activate { display: flex; align-items: center; gap: .5rem; min-height: 2.75rem; padding: 0 .9rem; border: 0; border-radius: 8px; color: white; background: var(--color-ink); font-size: .9rem; font-weight: 700; }
+.activate:hover { background: #2b2c4c; }
+.builder { display: grid; grid-template-columns: minmax(0,1fr) 350px; align-items: start; gap: 1rem; }
+.canvas { min-height: 680px; overflow: hidden; border: 1px solid #30314e; border-radius: 14px; color: #f7f7fb; background-color: #20213b; background-image: radial-gradient(#45465f 1px,transparent 1px); background-size: 20px 20px; }
+.canvasTop { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .9rem 1rem; border-bottom: 1px solid #ffffff1c; background: #191a32e8; }
+.canvasTop > div { display: flex; align-items: center; gap: .5rem; color: #d1d1e2; font-size: .78rem; font-weight: 800; letter-spacing: .1em; }
+.canvasTop > span { color: #b3b4c9; font-size: .8rem; }
+.flow { display: grid; justify-items: center; padding: 2rem 1rem 1.4rem; }
+.nodeRow { display: grid; justify-items: center; width: min(100%,580px); }
+.node { display: grid; grid-template-columns: 2.7rem minmax(0,1fr) 1.25rem; align-items: center; gap: .75rem; width: 100%; min-height: 5.1rem; padding: .8rem; border: 1px solid #ffffff28; border-radius: 11px; color: #f9f9fc; background: #2c2d49; text-align: left; transition: border-color .18s,box-shadow .18s,background .18s; }
+.node:hover { border-color: #8b89fa; }
+.nodeSelected { border-color: var(--color-lime); box-shadow: 0 0 0 3px rgb(198 243 107 / 13%); background: #30314d; }
+.nodeDisabled { opacity: .55; }
+.nodeIcon { display: grid; width: 2.65rem; height: 2.65rem; place-items: center; border-radius: 9px; color: var(--color-ink); background: var(--color-lime); font-size: 1.15rem; }
+.emailIcon { color: white; background: var(--color-violet); }
+.waitIcon { color: var(--color-ink); background: #ffd275; }
+.branchIcon { color: white; background: var(--color-coral); }
+.nodeCopy { display: grid; min-width: 0; gap: .15rem; }
+.nodeCopy small { color: #b8b8ce; font-size: .75rem; font-weight: 750; letter-spacing: .05em; }
+.nodeCopy strong { overflow: hidden; font-size: .96rem; text-overflow: ellipsis; white-space: nowrap; }
+.nodeCopy > span { overflow: hidden; color: #bdbdd0; font-size: .82rem; text-overflow: ellipsis; white-space: nowrap; }
+.nodeArrow { color: #a2a3ba; }
+.connector { position: relative; display: grid; width: 2px; height: 2.3rem; place-items: center; background: #82839e; }
+.connector span { position: absolute; bottom: -1px; width: 7px; height: 7px; border-right: 2px solid #b7b8d0; border-bottom: 2px solid #b7b8d0; transform: rotate(45deg); }
+.endNode { display: flex; align-items: center; gap: .5rem; margin-top: 1rem; padding: .5rem .8rem; border: 1px dashed #ffffff48; border-radius: 999px; color: #c6c7d8; font-size: .82rem; }
+.endNode svg { color: var(--color-lime); }
+.addSteps { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .5rem; padding: 1rem; border-top: 1px solid #ffffff1c; background: #191a32e8; }
+.addSteps > span { width: 100%; color: #b7b8ca; font-size: .82rem; text-align: center; }
+.addSteps button { display: inline-flex; align-items: center; gap: .4rem; min-height: 2.4rem; padding: 0 .8rem; border: 1px solid #ffffff38; border-radius: 7px; color: white; background: #2b2c49; font-size: .85rem; }
+.addSteps button:hover { border-color: var(--color-lime); }
+.addSteps svg { width: 1rem; }
+.inspector { position: sticky; top: 96px; padding: 1.1rem; border: 1px solid var(--color-line); border-radius: 13px; background: white; }
+.inspectorHeading { display: flex; align-items: center; gap: .7rem; padding-bottom: 1rem; border-bottom: 1px solid var(--color-line); }
+.inspectorIcon { display: grid; width: 2.6rem; height: 2.6rem; place-items: center; border-radius: 9px; color: var(--color-violet-dark); background: #eeedff; font-size: 1.15rem; }
+.inspectorHeading p { color: var(--color-muted); font-size: .75rem; font-weight: 800; letter-spacing: .1em; }
+.inspectorHeading h2 { margin-top: .1rem; font-size: 1.05rem; font-weight: 750; }
+.editForm { display: grid; gap: .45rem; margin-top: 1rem; }
+.editForm label { margin-top: .25rem; font-size: .88rem; font-weight: 700; }
+.editForm input,.editForm textarea { width: 100%; padding: .65rem .7rem; border: 1px solid var(--color-line); border-radius: 7px; background: white; font-size: .9rem; }
+.editForm textarea { resize: vertical; }
+.save { min-height: 2.6rem; margin-top: .3rem; border: 0; border-radius: 7px; color: white; background: var(--color-violet); font-size: .88rem; font-weight: 700; }
+.save:hover { background: var(--color-violet-dark); }
+.stepControls,.toggleRow { display: flex; align-items: center; justify-content: space-between; gap: .7rem; margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--color-line); }
+.stepControls > span { font-size: .88rem; font-weight: 700; }
+.stepControls > div { display: flex; gap: .35rem; }
+.stepControls button { display: grid; width: 2rem; height: 2rem; place-items: center; border: 1px solid var(--color-line); border-radius: 6px; background: white; }
+.stepControls button:disabled { opacity: .4; }
+.stepControls svg { width: 1rem; }
+.toggleRow strong,.toggleRow span { display: block; }
+.toggleRow strong { font-size: .88rem; }
+.toggleRow span { margin-top: .15rem; color: var(--color-muted); font-size: .82rem; }
+.toggle { width: 2.7rem; height: 1.55rem; padding: .15rem; border: 0; border-radius: 99px; background: #c8c8d4; transition: background .2s; }
+.toggle i { display: block; width: 1.25rem; height: 1.25rem; border-radius: 50%; background: white; transition: transform .2s; }
+.toggleOn { background: #51a56e; }
+.toggleOn i { transform: translateX(1.15rem); }
+.removeStep { display: inline-flex; align-items: center; gap: .4rem; margin-top: 1rem; padding: .45rem .2rem; border: 0; color: var(--color-error); background: transparent; font-size: .88rem; font-weight: 700; }
+.removeStep:hover { color: #8f2a40; }
+.demoNote { margin-top: 1.1rem; padding: .7rem; border-radius: 7px; color: #686987; background: #f2f2f8; font-size: .82rem; line-height: 1.45; }
+.hint { padding-top: 1rem; color: var(--color-muted); font-size: .9rem; }
+.missing { display: grid; justify-items: center; align-content: center; min-height: 60vh; gap: .7rem; text-align: center; }
+.missing h1 { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 400; }
+.missing p { color: var(--color-muted); }
+.missing a { display: inline-flex; align-items: center; gap: .4rem; margin-top: .5rem; color: var(--color-violet-dark); font-weight: 700; }
+@media(max-width: 1050px) { .builder { grid-template-columns: 1fr; } .inspector { position: static; } }
+@media(max-width: 650px) { .pageHeading { align-items: flex-start; flex-direction: column; } .headerActions { width: 100%; justify-content: space-between; } .canvas { min-height: 600px; } .canvasTop { align-items: flex-start; flex-direction: column; } .flow { padding-inline: .6rem; } .node { grid-template-columns: 2.3rem minmax(0,1fr) 1rem; gap: .55rem; padding: .65rem; } .nodeIcon { width: 2.3rem; height: 2.3rem; } }
