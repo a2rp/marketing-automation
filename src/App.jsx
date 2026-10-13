@@ -84,7 +84,7 @@ const App = () => {
   };
   const deleteCampaign = (id) => { const name = campaigns.find((item) => item.id === id)?.name; setCampaigns((current) => current.filter((item) => item.id !== id)); notify(`${name || "Campaign"} deleted.`, "info"); };
   const scheduleCampaign = (id) => { const item = campaigns.find((campaign) => campaign.id === id); if (!item) return; updateCampaign(id, { status: "Scheduled", updated: "Tomorrow, 9:00 AM" }); notify(`${item.name} is scheduled in this demo. No email was sent.`, "info"); };
-  const createSegment = (segment) => { setSegments((current) => [{ ...segment, id: `segment-${Date.now()}` }, ...current]); notify(`${segment.name} saved.`); };
+  const createSegment = (segment) => { const item = { ...segment, id: `segment-${Date.now()}` }; setSegments((current) => [item, ...current]); notify(`${segment.name} saved.`); return item.id; };
   const deleteSegment = (id) => { const name = segments.find((item) => item.id === id)?.name; setSegments((current) => current.filter((item) => item.id !== id)); notify(`${name || "Audience segment"} deleted.`, "info"); };
 
   const saveJourneyForm = (event) => {
