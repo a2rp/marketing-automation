@@ -1,27 +1,57 @@
-﻿import { useEffect, useState } from "react";
+﻿import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { FiArrowDown, FiArrowLeft, FiArrowRight, FiArrowUp, FiCheck, FiClock, FiGitBranch, FiMail, FiPlus, FiSettings, FiTrash2, FiZap } from "react-icons/fi";
+import { FiArrowDown, FiArrowLeft, FiArrowRight, FiArrowUp, FiCheck, FiClock, FiGitBranch, FiMail, FiSettings, FiTrash2, FiZap } from "react-icons/fi";
 import ConfirmationDialog from "../../components/confirmationDialog";
 import styles from "./styles.module.css";
 
 const icons = { trigger: FiZap, email: FiMail, wait: FiClock, branch: FiGitBranch };
-const stepTypes = ["email", "wait", "branch"];
 const typeNames = { trigger: "Trigger", email: "Email", wait: "Wait", branch: "Condition" };
+const stepTypes = ["email", "wait", "branch"];
+
+const StepInspector = ({ journey, selected, onNotify, onUpdateJourney, onUpdateJourneyStep, onRemoveJourneyStep, onSelectStep }) => {
+  const [title, setTitle] = useState(selected.title);
+  const [detail, setDetail] = useState(selected.detail);
+  const [removeOpen, setRemoveOpen] = useState(false);
+  const currentIndex = journey.steps.findIndex((step) => step.id === selected.id);
+
+  const saveStep = (event) => {
+    event.preventDefault();
+    if (!title.trim()) { onNotify("Add a title to this step before saving.", "error"); return; }
+    onUpdateJourneyStep(journey.id, selected.id, { title: title.trim(), detail: detail.trim() });
+    onNotify("Step details updated.");
+  };
+
+  const moveStep = (direction) => {
+    const nextIndex = currentIndex + direction;
+    if (nextIndex < 1 || nextIndex >= journey.steps.length) return;
+    const reordered = [...journey.steps];
+    [reordered[currentIndex], reordered[nextIndex]] = [reordered[nextIndex], reordered[currentIndex]];
+    onUpdateJourney(journey.id, { steps: reordered });
+    onNotify(`Moved “${selected.title}” ${direction < 0 ? "earlier" : "later"}.`);
+  };
+
+  const removeStep = () => {
+    onRemoveJourneyStep(journey.id, selected.id);
+    onSelectStep(journey.steps.find((step) => step.type === "trigger")?.id || "");
+    setRemoveOpen(false);
+    onNotify(`${selected.title} removed from the journey.`, "info");
+  };
+
+  return <>
+    <div className={styles.inspectorHeading}><span className={styles.inspectorIcon}><FiSettings /></span><div><p>STEP SETTINGS</p><h2>{typeNames[selected.type]}</h2></div></div>
+    <form className={styles.editForm} onSubmit={saveStep}><label htmlFor="step-title">Step title</label><input id="step-title" value={title} onChange={(event) => setTitle(event.target.value)} maxLength="64" /><label htmlFor="step-detail">Description</label><textarea id="step-detail" rows="4" value={detail} onChange={(event) => setDetail(event.target.value)} maxLength="200" /><button className={styles.save} type="submit">Save step changes</button></form>
+    <div className={styles.stepControls}><span>Step order</span><div><button type="button" onClick={() => moveStep(-1)} disabled={currentIndex <= 1} aria-label="Move step earlier"><FiArrowUp /></button><button type="button" onClick={() => moveStep(1)} disabled={currentIndex >= journey.steps.length - 1} aria-label="Move step later"><FiArrowDown /></button></div></div>
+    {selected.type !== "trigger" && <><div className={styles.toggleRow}><div><strong>Step enabled</strong><span>{selected.enabled ? "Included in this journey" : "Skipped while disabled"}</span></div><button type="button" className={[styles.toggle, selected.enabled ? styles.toggleOn : ""].join(" ")} onClick={() => { onUpdateJourneyStep(journey.id, selected.id, { enabled: !selected.enabled }); onNotify(`${selected.title} ${selected.enabled ? "paused" : "enabled"}.`); }} role="switch" aria-checked={selected.enabled} aria-label={`Toggle ${selected.title}`}><i /></button></div><button className={styles.removeStep} type="button" onClick={() => setRemoveOpen(true)}><FiTrash2 aria-hidden="true" /> Remove this step</button></>}
+    <div className={styles.demoNote}>Demo mode. No email is sent and no contact data is changed.</div>
+    <ConfirmationDialog isOpen={removeOpen} title="Remove this step?" itemName={selected.title} description="This step will be removed from the journey in the current session." confirmLabel="Remove step" cancelLabel="Keep step" onConfirm={removeStep} onCancel={() => setRemoveOpen(false)} />
+  </>;
+};
 
 const JourneyBuilder = ({ journeys, onNotify, onUpdateJourney, onAddJourneyStep, onUpdateJourneyStep, onRemoveJourneyStep }) => {
   const { journeyId } = useParams();
   const journey = journeys.find((item) => item.id === journeyId);
   const [selectedId, setSelectedId] = useState(journey?.steps[0]?.id || "");
-  const [title, setTitle] = useState("");
-  const [detail, setDetail] = useState("");
-  const [removeOpen, setRemoveOpen] = useState(false);
   const selected = journey?.steps.find((step) => step.id === selectedId);
-
-  useEffect(() => {
-    if (!selected) return;
-    setTitle(selected.title);
-    setDetail(selected.detail);
-  }, [selected?.id, selected?.title, selected?.detail]);
 
   if (!journey) return <section className={styles.missing}><h1>Journey not found.</h1><p>It may have been removed from this session.</p><Link to="/journeys"><FiArrowLeft /> Back to journeys</Link></section>;
 
@@ -33,23 +63,6 @@ const JourneyBuilder = ({ journeys, onNotify, onUpdateJourney, onAddJourneyStep,
     const status = journey.status === "Active" ? "Paused" : "Active";
     onUpdateJourney(journey.id, { status });
     onNotify(`${journey.name} ${status === "Active" ? "is active" : "is paused"}.`);
-  };
-
-  const saveStep = (event) => {
-    event.preventDefault();
-    if (!title.trim()) { onNotify("Add a title to this step before saving.", "error"); return; }
-    onUpdateJourneyStep(journey.id, selected.id, { title: title.trim(), detail: detail.trim() });
-    onNotify("Step details updated.");
-  };
-
-  const moveStep = (direction) => {
-    const currentIndex = journey.steps.findIndex((step) => step.id === selected.id);
-    const nextIndex = currentIndex + direction;
-    if (nextIndex < 1 || nextIndex >= journey.steps.length) return;
-    const reordered = [...journey.steps];
-    [reordered[currentIndex], reordered[nextIndex]] = [reordered[nextIndex], reordered[currentIndex]];
-    onUpdateJourney(journey.id, { steps: reordered });
-    onNotify(`Moved “${selected.title}” ${direction < 0 ? "earlier" : "later"}.`);
   };
 
   return (
@@ -72,19 +85,12 @@ const JourneyBuilder = ({ journeys, onNotify, onUpdateJourney, onAddJourneyStep,
             })}
             <div className={styles.endNode}><FiCheck aria-hidden="true" /> End of this path</div>
           </div>
-          <div className={styles.addSteps}><span>Add a next step</span>{stepTypes.map((type) => { const Icon = icons[type]; return <button type="button" key={type} onClick={() => { onAddJourneyStep(journey.id, type); const addedId = `step-${Date.now()}`; window.setTimeout(() => setSelectedId(addedId), 0); }}><Icon aria-hidden="true" /> {typeNames[type]}</button>; })}</div>
+          <div className={styles.addSteps}><span>Add a next step</span>{stepTypes.map((type) => { const Icon = icons[type]; return <button type="button" key={type} onClick={() => { const addedId = onAddJourneyStep(journey.id, type); if (addedId) setSelectedId(addedId); }}><Icon aria-hidden="true" /> {typeNames[type]}</button>; })}</div>
         </section>
         <aside className={styles.inspector}>
-          <div className={styles.inspectorHeading}><span className={styles.inspectorIcon}><FiSettings /></span><div><p>STEP SETTINGS</p><h2>{selected ? typeNames[selected.type] : "Select a step"}</h2></div></div>
-          {selected ? <>
-            <form className={styles.editForm} onSubmit={saveStep}><label htmlFor="step-title">Step title</label><input id="step-title" value={title} onChange={(event) => setTitle(event.target.value)} maxLength="64" /><label htmlFor="step-detail">Description</label><textarea id="step-detail" rows="4" value={detail} onChange={(event) => setDetail(event.target.value)} maxLength="200" /><button className={styles.save} type="submit">Save step changes</button></form>
-            <div className={styles.stepControls}><span>Step order</span><div><button type="button" onClick={() => moveStep(-1)} disabled={journey.steps.findIndex((step) => step.id === selected.id) <= 1} aria-label="Move step earlier"><FiArrowUp /></button><button type="button" onClick={() => moveStep(1)} disabled={journey.steps.findIndex((step) => step.id === selected.id) >= journey.steps.length - 1} aria-label="Move step later"><FiArrowDown /></button></div></div>
-            {selected.type !== "trigger" && <><div className={styles.toggleRow}><div><strong>Step enabled</strong><span>{selected.enabled ? "Included in this journey" : "Skipped while disabled"}</span></div><button type="button" className={[styles.toggle, selected.enabled ? styles.toggleOn : ""].join(" ")} onClick={() => { onUpdateJourneyStep(journey.id, selected.id, { enabled: !selected.enabled }); onNotify(`${selected.title} ${selected.enabled ? "paused" : "enabled"}.`); }} role="switch" aria-checked={selected.enabled} aria-label={`Toggle ${selected.title}`}><i /></button></div><button className={styles.removeStep} type="button" onClick={() => setRemoveOpen(true)}><FiTrash2 aria-hidden="true" /> Remove this step</button></>}
-          </> : <p className={styles.hint}>Choose a step in the canvas to review or edit its details.</p>}
-          <div className={styles.demoNote}>Demo mode. No email is sent and no contact data is changed.</div>
+          {selected ? <StepInspector key={selected.id} journey={journey} selected={selected} onNotify={onNotify} onUpdateJourney={onUpdateJourney} onUpdateJourneyStep={onUpdateJourneyStep} onRemoveJourneyStep={onRemoveJourneyStep} onSelectStep={setSelectedId} /> : <><div className={styles.inspectorHeading}><span className={styles.inspectorIcon}><FiSettings /></span><div><p>STEP SETTINGS</p><h2>Select a step</h2></div></div><p className={styles.hint}>Choose a step in the canvas to review or edit its details.</p></>}
         </aside>
       </div>
-      <ConfirmationDialog isOpen={removeOpen} title="Remove this step?" itemName={selected?.title} description="This step will be removed from the journey in the current session." confirmLabel="Remove step" cancelLabel="Keep step" onConfirm={() => { onRemoveJourneyStep(journey.id, selected.id); setSelectedId(journey.steps.find((step) => step.type === "trigger")?.id || ""); setRemoveOpen(false); onNotify(`${selected.title} removed from the journey.`, "info"); }} onCancel={() => setRemoveOpen(false)} />
     </div>
   );
 };
