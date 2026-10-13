@@ -1,0 +1,13 @@
+﻿.backdrop { position: fixed; z-index: 1600; inset: 0; display: grid; place-items: center; padding: 1rem; background: rgb(17 18 39 / 58%); backdrop-filter: blur(5px); }
+.dialog { width: min(100%, 590px); max-height: min(90vh, 820px); overflow: auto; border: 1px solid var(--color-line); border-radius: 18px; background: var(--color-surface); box-shadow: 0 28px 90px rgb(14 15 34 / 30%); animation: appear .18s ease both; }
+.small { width: min(100%, 440px); }
+.large { width: min(100%, 780px); }
+.header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.3rem 1.4rem 1rem; border-bottom: 1px solid var(--color-line); }
+.header h2 { font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.15; }
+.header p { margin-top: .4rem; color: var(--color-muted); font-size: .9rem; }
+.close { display: grid; flex: 0 0 auto; width: 2.4rem; height: 2.4rem; place-items: center; border: 1px solid var(--color-line); border-radius: 8px; background: transparent; transition: border-color .18s,box-shadow .18s; }
+.close:hover { border-color: var(--color-violet); box-shadow: 0 0 0 3px rgb(112 108 250 / 14%); }
+.close svg { width: 1.15rem; height: 1.15rem; }
+.body { padding: 1.3rem 1.4rem 1.5rem; }
+@keyframes appear { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@media(max-width: 600px) { .backdrop { padding: .7rem; } .header { padding: 1rem; } .header h2 { font-size: 1.5rem; } .body { padding: 1rem; } }
