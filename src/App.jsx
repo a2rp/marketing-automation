@@ -74,7 +74,7 @@ const App = () => {
     notify(`${campaign.name} saved as a draft.`);
     return campaign;
   };
-  const updateCampaign = (id, changes) => setCampaigns((current) => current.map((item) => item.id === id ? { ...item, ...changes, updated: "Just now" } : item));
+  const updateCampaign = (id, changes) => setCampaigns((current) => current.map((item) => item.id === id ? { ...item, updated: "Just now", ...changes } : item));
   const duplicateCampaign = (id) => {
     const source = campaigns.find((item) => item.id === id);
     if (!source) return;
