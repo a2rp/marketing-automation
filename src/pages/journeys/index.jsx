@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight, FiClock, FiCopy, FiGitBranch, FiMoreHorizontal, FiPause, FiPlay, FiTrash2, FiUsers } from "react-icons/fi";
 import ConfirmationDialog from "../../components/confirmationDialog";
@@ -37,7 +37,7 @@ const Journeys = ({ journeys, onNotify, onUpdateJourney, onDuplicateJourney, onD
             <Link className={styles.cardTitle} to={`/journeys/${journey.id}`}>{journey.name}<FiArrowRight aria-hidden="true" /></Link>
             <p className={styles.goal}>{journey.goal}</p>
             <div className={styles.trigger}><span>ENTRY</span><strong>{journey.trigger}</strong></div>
-            <div className={styles.cardFoot}><span><FiGitBranch aria-hidden="true" /> {journey.steps.length} steps</span><span><FiClock aria-hidden="true" /> {journey.updated}</span><button type="button" onClick={() => toggleStatus(journey)}>{journey.status === "Active" ? <><FiPause /> Pause</> : <><FiPlay /> {journey.status === "Paused" ? "Resume" : "Activate"}</>}</button></div>
+            <div className={styles.cardFoot}><span><FiGitBranch aria-hidden="true" /> {journey.steps.length} steps</span><span><FiClock aria-hidden="true" /> {journey.updated}</span><button type="button" aria-label={`${journey.status === "Active" ? "Pause" : journey.status === "Paused" ? "Resume" : "Activate"} ${journey.name}`} onClick={() => toggleStatus(journey)}>{journey.status === "Active" ? <><FiPause /> Pause</> : <><FiPlay /> {journey.status === "Paused" ? "Resume" : "Activate"}</>}</button></div>
           </article>)}</div> : <div className={styles.empty}><FiMoreHorizontal aria-hidden="true" /><h3>No journeys match.</h3><p>Adjust your search or status filter to see more.</p><button type="button" onClick={() => { setQuery(""); setFilter("All journeys"); }}>Clear filters</button></div>}
         </section>
         <aside className={styles.sidePanel}><div className={styles.sideTop}><span className={styles.sideIcon}><FiClock /></span><span>WORKSPACE NOTE</span></div><h2>Good timing is a kind of care.</h2><p>Start with one useful moment, give it room, then let the next step follow naturally.</p><div className={styles.flowPreview}><div><span className={styles.flowDot} /><strong>Customer event</strong><small>A clear reason to begin</small></div><i /><div><span className={[styles.flowDot, styles.emailDot].join(" ")} /><strong>Helpful message</strong><small>One focused action</small></div><i /><div><span className={[styles.flowDot, styles.goalDot].join(" ")} /><strong>Meaningful next step</strong><small>Built around their needs</small></div></div><div className={styles.sideFoot}><span>{activeCount} live paths</span><span>Demo data only</span></div></aside>
