@@ -1,0 +1,10 @@
+﻿.toast { position: fixed; z-index: 2200; right: 1.2rem; bottom: 1.2rem; display: flex; align-items: center; gap: .7rem; width: min(440px, calc(100vw - 2rem)); padding: .85rem 1rem; border: 1px solid var(--color-line); border-radius: 11px; background: white; box-shadow: 0 15px 45px rgb(25 27 54 / 16%); animation: arrive .2s ease both; }
+.toast > svg { flex: 0 0 auto; width: 1.2rem; height: 1.2rem; }
+.toast span { flex: 1; font-size: .9rem; font-weight: 600; }
+.toast button { display: grid; width: 2rem; height: 2rem; place-items: center; border: 0; border-radius: 6px; background: transparent; }
+.toast button:hover { background: rgb(25 27 54 / 7%); }
+.success > svg { color: #39835a; }
+.error > svg { color: #ba4056; }
+.info > svg { color: var(--color-violet); }
+@keyframes arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media(max-width: 500px) { .toast { right: .7rem; bottom: .7rem; width: calc(100vw - 1.4rem); } }
