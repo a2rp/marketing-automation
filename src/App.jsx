@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./components/header";
 import Footer from "./components/footer";
@@ -61,7 +61,7 @@ const App = () => {
     const [title, detail] = labels[type] || labels.email;
     const step = { id: `step-${Date.now()}`, type, title, detail, enabled: true };
     updateJourney(id, { steps: [...(journeys.find((item) => item.id === id)?.steps || []), step] });
-    notify(`${title} added to the journey.`);
+    notify(`${title} added to the journey.`);\n    return step.id;
   };
   const updateJourneyStep = (journeyId, stepId, changes) => updateJourney(journeyId, { steps: journeys.find((item) => item.id === journeyId)?.steps.map((step) => step.id === stepId ? { ...step, ...changes } : step) || [] });
   const removeJourneyStep = (journeyId, stepId) => updateJourney(journeyId, { steps: journeys.find((item) => item.id === journeyId)?.steps.filter((step) => step.id !== stepId) || [] });
