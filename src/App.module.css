@@ -1,0 +1,14 @@
+﻿.app { min-height: 100vh; display: flex; flex-direction: column; }
+.main { flex: 1 0 auto; width: 100%; min-height: 68vh; padding: 104px clamp(1rem, 4vw, 4rem) 4rem; }
+.skipLink { position: fixed; z-index: 3000; top: .8rem; left: .8rem; padding: .7rem 1rem; border-radius: .45rem; color: white; background: var(--color-ink); transform: translateY(-160%); }
+.skipLink:focus { transform: translateY(0); }
+.createForm { display: grid; gap: .55rem; }
+.createForm label { margin-top: .4rem; font-size: .9rem; font-weight: 700; }
+.createForm input,.createForm select,.createForm textarea { width: 100%; min-height: 2.8rem; padding: .65rem .75rem; border: 1px solid var(--color-line); border-radius: 8px; background: white; }
+.createForm textarea { min-height: 6rem; resize: vertical; }
+.errorText { color: var(--color-error); font-size: .85rem; }
+.formActions { display: flex; justify-content: flex-end; gap: .6rem; margin-top: .7rem; }
+.formActions button { min-height: 2.7rem; padding: 0 .9rem; border: 1px solid var(--color-line); border-radius: 8px; background: white; font-weight: 700; }
+.formActions button:last-child { border-color: var(--color-violet); color: white; background: var(--color-violet); }
+.formActions button:last-child:hover { background: var(--color-violet-dark); }
+@media(max-width: 700px) { .main { padding: 88px 1rem 3rem; } }
